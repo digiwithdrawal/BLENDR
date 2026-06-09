@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>CLOUD RIG ORANGE</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-bg">
+    <div class="browser-bars">
+      <div class="long-pill"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="mini-row">
+        <span class="ring"></span><span></span><span></span><i></i>
+      </div>
+    </div>
+
+    <div class="pattern pattern-top"></div>
+    <div class="pattern pattern-bottom"></div>
+
+    <main class="shell">
+      <section class="hero-card">
+        <div class="orange-art">
+          <div class="orange-slice">
+            <div class="inner-ring"></div>
+            <b class="seg s1"></b><b class="seg s2"></b><b class="seg s3"></b>
+            <b class="seg s4"></b><b class="seg s5"></b><b class="seg s6"></b>
+          </div>
+          <div class="splash"><span></span><span></span><span></span></div>
+          <div class="spark sp1"></div>
+          <div class="spark sp2"></div>
+        </div>
+
+        <div class="title-zone">
+          <h1>CLOUD RIG!</h1>
+          <p>Orange browser rigger · no AI · no API</p>
+        </div>
+
+        <div class="flowers">
+          <span></span><span></span><span></span>
+        </div>
+      </section>
+
+      <section class="app-card">
+        <nav class="tabs">
+          <button class="tab active" data-panel="importPanel">Import</button>
+          <button class="tab" data-panel="layoutPanel">Layout</button>
+          <button class="tab" data-panel="rigPanel">Rig</button>
+          <button class="tab" data-panel="posePanel">Pose</button>
+          <button class="tab" data-panel="facePanel">Face</button>
+          <button class="tab" data-panel="animPanel">Animate</button>
+          <button class="tab" data-panel="exportPanel">Export</button>
+        </nav>
+
+        <div class="work-area">
+          <section class="viewport-wrap">
+            <canvas id="viewport"></canvas>
+
+            <div class="viewport-tools">
+              <button id="selectToolBtn" class="tool active">Select</button>
+              <button id="moveToolBtn" class="tool">Move</button>
+              <button id="rotateToolBtn" class="tool">Rotate</button>
+              <button id="scaleToolBtn" class="tool">Scale</button>
+            </div>
+
+            <div class="hud">
+              <span id="statusText">Ready. Import a GLB/GLTF model.</span>
+              <span id="selectedText">Selected: none</span>
+            </div>
+          </section>
+
+          <aside class="panel-stack">
+            <section id="importPanel" class="panel active">
+              <h2>Import</h2>
+              <p>Upload a GLB/GLTF model. Works on desktop and iPhone.</p>
+
+              <label class="file-button">
+                Upload Model
+                <input id="modelInput" type="file" accept=".glb,.gltf,model/gltf-binary,model/gltf+json">
+              </label>
+
+              <div class="barcode">
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+              </div>
+
+              <button id="clearSceneBtn">Clear Scene</button>
+            </section>
+
+            <section id="layoutPanel" class="panel">
+              <h2>Layout</h2>
+              <label>Model Scale <input id="modelScale" type="range" min="0.1" max="5" step="0.05" value="1"></label>
+              <label>Model Y Position <input id="modelY" type="range" min="-3" max="3" step="0.05" value="0"></label>
+              <button id="centerModelBtn">Center Model</button>
+              <button id="toggleGridBtn">Toggle Grid</button>
+              <button id="frameModelBtn">Frame Camera</button>
+            </section>
+
+            <section id="rigPanel" class="panel">
+              <h2>Rig</h2>
+              <p>Auto Rig estimates bone handles from the model size. Drag/tap to fix them.</p>
+
+              <button id="autoRigBtn" class="primary">AUTO RIG</button>
+              <button id="mirrorRigBtn">Mirror Rig</button>
+
+              <label>Manual Bone Point
+                <select id="boneSelect"></select>
+              </label>
+
+              <button id="placeModeBtn">Place Bone: OFF</button>
+              <button id="autoSkeletonBtn">Rebuild Lines</button>
+              <button id="clearBonesBtn">Clear Bones</button>
+
+              <div id="boneList" class="list"></div>
+            </section>
+
+            <section id="posePanel" class="panel">
+              <h2>Pose</h2>
+              <label>Preset Pose
+                <select id="poseSelect"></select>
+              </label>
+
+              <button id="applyPoseBtn" class="primary">Apply Pose</button>
+
+              <label>Rotate X <input id="rotX" type="range" min="-180" max="180" value="0"></label>
+              <label>Rotate Y <input id="rotY" type="range" min="-180" max="180" value="0"></label>
+              <label>Rotate Z <input id="rotZ" type="range" min="-180" max="180" value="0"></label>
+
+              <button id="resetSelectedBoneBtn">Reset Selected</button>
+              <button id="savePoseBtn">Save Pose</button>
+            </section>
+
+            <section id="facePanel" class="panel">
+              <h2>Face</h2>
+              <p>Add eyes/mouth PNG planes and attach them to the Head handle.</p>
+
+              <label class="file-button">
+                Add Face PNG
+                <input id="faceInput" type="file" accept="image/png,image/webp,image/jpeg">
+              </label>
+
+              <label>Plane Size <input id="faceSize" type="range" min="0.05" max="2" step="0.05" value="0.45"></label>
+              <button id="attachFaceToHeadBtn">Attach To Head</button>
+              <button id="detachFaceBtn">Detach</button>
+              <button id="deleteSelectedBtn">Delete Selected</button>
+            </section>
+
+            <section id="animPanel" class="panel">
+              <h2>Animate</h2>
+
+              <div class="timeline-row">
+                <button id="prevFrameBtn">◀</button>
+                <input id="frameSlider" type="range" min="1" max="120" value="1">
+                <button id="nextFrameBtn">▶</button>
+              </div>
+
+              <p>Frame: <strong id="frameNumber">1</strong></p>
+
+              <button id="addKeyframeBtn" class="primary">Add Keyframe</button>
+              <button id="playBtn">Play</button>
+              <button id="stopBtn">Stop</button>
+
+              <div id="keyframeList" class="list"></div>
+            </section>
+
+            <section id="exportPanel" class="panel">
+              <h2>Export</h2>
+
+              <button id="saveProjectBtn">Save Browser Project</button>
+              <button id="loadProjectBtn">Load Project JSON</button>
+              <button id="exportProjectBtn">Export Project JSON</button>
+              <button id="downloadPngBtn">Screenshot PNG</button>
+              <input id="projectFileInput" type="file" accept="application/json" hidden>
+
+              <p>JSON saves rig points, poses, face planes, and keyframes. Re-import your model after loading JSON.</p>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <footer class="footer-strip">
+        <div class="ascii">
+          <span>Cloud</span><span>Rig</span><span>Orange</span>
+        </div>
+        <strong>Tasty New and Fresh!</strong>
+        <div class="arrows">◢ ◢ ◢</div>
+        <div class="barcode foot">
+          <b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
